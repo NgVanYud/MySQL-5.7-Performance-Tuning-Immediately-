@@ -5,7 +5,7 @@
 
 Blog này cập nhật từ blog của Stephane Combaudon về điều chỉnh hiệu năng của MySQL] [1] và tổng quát hóa về vấn đề tùy chỉnh hiệu năng của MySQL 5.7 ngay sau khi cài đặt.
 
-Cách đây 1 năm, Stephane Combaudon đã viết một bài đăng trên blog về các cài đặt điều chỉnh hiệu suất của Ten MySQL sau khi cài đặt, bao gồm cả các phiên bản trước đây (hiện tại) của MySQL như: 5.1, 5.5 và 5.6.
+Cách đây 1 năm, Stephane Combaudon đã viết một bài đăng trên blog về 10 cài đặt điều chỉnh hiệu năng của MySQL sau khi cài đặt, bao gồm cả các phiên bản trước đây (hiện tại) của MySQL như: 5.1, 5.5 và 5.6.
 
 Tin tốt là MySQL 5.7 có giá trị mặc định tốt hơn rất nhiều. Morgan Tocker đã tạo một trang với danh sách đầy đủ các tính năng trong MySQL 5.7, và là một nguồn tham khảo tuyệt vời. Ví dụ, các biến dưới đây sẽ được thiết lập các giá trị mặc định: 
 
@@ -26,10 +26,10 @@ Trong MySQL 5.7, chỉ có bốn biến thực sự quan trọng cần được 
     innodb_flush_log_at_trx_commit = 1 # may change to 2 or 0
     innodb_flush_method = O_DIRECT
 ```
-Description:
+Mô tả:
 
 | ----- |
-| **Variable** |  **Value** |  
+| **Biến** |  **Giá trị** |  
 | innodb_buffer_pool_size |  Khởi động với 50% đến 70% dung lượng RAM. Không cần phải lớn hơn kích thước của cơ sở dữ liệu |  
 | innodb_flush_log_at_trx_commit | 
 
