@@ -3,9 +3,9 @@
 
 # Tùy chỉnh hiệu năng MySQL 5.7 ngay sau khi cài đặt
 
-Blog này cập nhật từ blog của Stephane Combaudon về điều chỉnh hiệu năng của MySQL] [1] và tổng quát hóa về vấn đề tùy chỉnh hiệu năng của MySQL 5.7 ngay sau khi cài đặt.
+Blog này cập nhật từ [blog của Stephane Combaudon về điều chỉnh hiệu năng của MySQL] [1] và tổng quát hóa về vấn đề tùy chỉnh hiệu năng của MySQL 5.7 ngay sau khi cài đặt.
 
-Cách đây 1 năm, Stephane Combaudon đã viết một bài đăng trên blog về các cài đặt điều chỉnh hiệu suất của Ten MySQL sau khi cài đặt, bao gồm cả các phiên bản trước đây (hiện tại) của MySQL như: 5.1, 5.5 và 5.6.
+Cách đây 1 năm, Stephane Combaudon đã viết một bài đăng trên blog về [10 cài đặt tùy chỉnh hiệu năng MySQL sau khi cài đặt ][1] của Ten MySQL sau khi cài đặt, bao gồm cả các phiên bản trước đây (hiện tại) của MySQL như: 5.1, 5.5 và 5.6.
 
 Tin tốt là MySQL 5.7 có giá trị mặc định tốt hơn rất nhiều. Morgan Tocker đã tạo một trang với danh sách đầy đủ các tính năng trong MySQL 5.7, và là một nguồn tham khảo tuyệt vời. Ví dụ, các biến dưới đây sẽ được thiết lập các giá trị mặc định: 
 
@@ -28,20 +28,17 @@ Trong MySQL 5.7, chỉ có bốn biến thực sự quan trọng cần được 
 ```
 Description:
 
-| ----- |
-| **Variable** |  **Value** |  
-| innodb_buffer_pool_size |  Khởi động với 50% đến 70% dung lượng RAM. Không cần phải lớn hơn kích thước của cơ sở dữ liệu |  
-| innodb_flush_log_at_trx_commit | 
-
-* 1   (Mặc định)
-* 0/2 (hiệu suất cao hơn, độ tin cậy thấp hơn)
- |  
-| innodb_log_file_size |  128M – 2G (không cần phải lớn hơn bộ nhớ đệm) |  
-| innodb_flush_method |  O_DIRECT (avoid double buffering) | 
+| Biến |  Giá trị | 
+| ------------- |:-------------:| 
+| innodb_buffer_pool_size |  Bắt đầu với 50% 70% tổng RAM. Không nhất thiết phải lớn hơn kích thước cơ sở dữ liệu|  
+| innodb_flush_log_at_trx_commit | * 1   (Mặc định) 
+|                                |0/2 hiệu suất cao hơn,kém tin cậy hơn)|  
+| innodb_log_file_size |  128M – 2G (không cần thiết phải lớn hơn vùng đệm) |  
+| innodb_flush_method |  O_DIRECT (tránh buffering 2 lần) |  
 
 _**Điều gì chờ đón tiếp theo?**_
 
-Đó là điểm khởi đầu tốt cho bất kỳ việc cài đặt mới nào. Có một số biến khác có thể tăng hiệu năng MySQL trong một số công việc. Thông thường, tôi sẽ thiết lập một công cụ giám sát / vẽ đồ thị MySQL (ví dụ, [Percona Monitoring and Management platform]) và sau đó kiểm tra bảng điều khiển MySQL để thực hiện điều chỉnh thêm.
+Đây là những xuất phát điểm tốt cho bất kỳ cài đặt mới nào. Có một số biến khác có thể tăng hiệu năng MySQL trong một số công việc. Thông thường, tôi sẽ thiết lập một công cụ giám sát / vẽ đồ thị MySQL (ví dụ, [Percona Monitoring and Management platform]) và sau đó kiểm tra bảng điều khiển MySQL để thực hiện điều chỉnh thêm.
 
 _**Những gì chúng ta có thể điều chỉnh thêm dựa trên các đồ thị?**_
 
@@ -69,7 +66,7 @@ Thiết lập giá trị của _innodb_autoinc_lock_mode_ = 2 (chế độ xen k
 
 _innodb_io_capacity _và_ innodb_io_capacity_max_
 
-Đây là một điều chỉnh nâng cao hơn, và chỉ có ý nghĩa khi bạn đang thực hiện một công việc write mà thôi (nó không áp dụng cho các lần đọc, ví dụ: SELECT). Ví dụ, nếu máy chủ có một ổ SSD, chúng ta có thể gán giá trị _innodb_io_capacity_max_ = _6000_ và _innodb_io_capacity_ = _3000_ (Bằng một nữa so với giá trị max). Đó là một ý tưởng tốt để chạy sysbench hoặc bất kỳ công cụ benchmark khác nào để chuẩn hóa thông lượng đĩa.
+Đây là một điều chỉnh nâng cao hơn, và chỉ có ý nghĩa khi bạn đang thực hiện một công việc viết mà thôi (nó không áp dụng cho các lần đọc, ví dụ: SELECT). Ví dụ, nếu máy chủ có một ổ SSD, chúng ta có thể gán giá trị _innodb_io_capacity_max_ = _6000_ và _innodb_io_capacity_ = _3000_ (Bằng một nữa so với giá trị max). Đó là một ý tưởng tốt để chạy sysbench hoặc bất kỳ công cụ benchmark khác nào để chuẩn hóa thông lượng đĩa.
 
 Nhưng liệu chúng ta có cần phải bận tâm về cài đặt này không? Hãy xem biểu đồ "các trang rác" của vùng đệm:
 
